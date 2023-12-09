@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/My-Trello/static/css/main.ecb88027.css",
+    "main.js": "/My-Trello/static/js/main.c6dae84f.js",
+    "static/media/background.jpg": "/My-Trello/static/media/background.e5c403e3b06ed3f74a2b.jpg",
+    "static/media/logo.png": "/My-Trello/static/media/logo.5f7d081a124582d46492.png",
+    "index.html": "/My-Trello/index.html",
+    "main.ecb88027.css.map": "/My-Trello/static/css/main.ecb88027.css.map",
+    "main.c6dae84f.js.map": "/My-Trello/static/js/main.c6dae84f.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.ecb88027.css",
+    "static/js/main.c6dae84f.js"
+  ]
+}
