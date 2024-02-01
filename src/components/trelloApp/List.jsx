@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Card from "./Card";
 import AddNewTask from "./AddNewTask";
 import { useDispatch, useSelector } from "react-redux";
@@ -8,7 +8,7 @@ import {
   list,
   updateOrder,
 } from "../../redux/slices/list-slice";
-import { InputBase, styled } from "@mui/material";
+import { Box, Button, InputBase, Typography, styled } from "@mui/material";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 
 const List = () => {
@@ -18,9 +18,7 @@ const List = () => {
   const [hoveredItemId, setHoveredItemId] = useState(null);
   const dispatch = useDispatch();
 
-  const removeList = (id) => {
-    dispatch(deletelist({ id }));
-  };
+  const removeList = (id) => dispatch(deletelist({ id }));
 
   const startEditing = (id, title) => {
     setEditingItemId(id);
@@ -40,17 +38,11 @@ const List = () => {
     }
   };
 
-  const handleDragStart = (e, id) => {
-    e.dataTransfer.setData("text/plain", id);
-  };
+  const handleDragStart = (e, id) => e.dataTransfer.setData("text/plain", id);
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDragOver = (e) => e.preventDefault();
 
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-  };
+  const handleDragEnter = (e) => e.preventDefault();
 
   const handleDragLeave = () => {};
 
@@ -58,20 +50,17 @@ const List = () => {
     e.preventDefault();
     const draggedItemId = e.dataTransfer.getData("text/plain");
 
-    const newList = listItem.map((item) => {
-      if (item.id === draggedItemId) {
-        return { ...item, parentId: targetId };
-      }
-      return item;
-    });
-
+    const newList = listItem.map((item) =>
+      item.id === draggedItemId ? { ...item, parentId: targetId } : item
+    );
     dispatch(updateOrder(newList));
   };
 
   return (
-    <StyledListContainer>
+    <StyledContainer>
       {listItem.map(({ id, title, children }) => (
-        <StyledAddTaskContainer
+        <Box
+          className="container"
           key={id}
           draggable
           onDragStart={(e) => handleDragStart(e, id)}
@@ -80,7 +69,8 @@ const List = () => {
           onDragLeave={handleDragLeave}
           onDrop={(e) => handleDrop(e, id)}
         >
-          <StyledListTitle
+          <Box
+            className="box-title"
             onMouseEnter={() => setHoveredItemId(id)}
             onMouseLeave={() => setHoveredItemId(null)}
           >
@@ -90,46 +80,51 @@ const List = () => {
                   value={parentUpdateInput}
                   onChange={(e) => setParentUpdateInput(e.target.value)}
                 />
-                <div>
-                  <button type="button" onClick={updateList}>
+                <Box>
+                  <Button type="button" onClick={updateList}>
                     Сохранить
-                  </button>
-                  <button type="button" onClick={cancelEditing}>
+                  </Button>
+
+                  <Button type="button" onClick={cancelEditing}>
                     Отмена
-                  </button>
-                </div>
+                  </Button>
+                </Box>
               </StyledEditForm>
             ) : (
               <>
-                {title}
-                <StyledIconsList isVisible={hoveredItemId === id}>
-                  <button onClick={() => startEditing(id, title)}>
+                <Typography className="title">{title}</Typography>
+
+                <StyledIcons isVisible={hoveredItemId === id}>
+                  <Button onClick={() => startEditing(id, title)}>
                     <MdModeEdit />
-                  </button>
-                  <button onClick={() => removeList(id)}>
+                  </Button>
+
+                  <Button onClick={() => removeList(id)}>
                     <MdDelete />
-                  </button>
-                </StyledIconsList>
+                  </Button>
+                </StyledIcons>
               </>
             )}
-          </StyledListTitle>
+          </Box>
           {children?.length > 0 &&
             children.map((child) => <Card key={child.id} cardInfo={child} />)}
-          <div>
+
+          <Box>
             <AddNewTask type="card" parentId={id} />
-          </div>
-        </StyledAddTaskContainer>
+          </Box>
+        </Box>
       ))}
-      <div>
+
+      <Box>
         <AddNewTask />
-      </div>
-    </StyledListContainer>
+      </Box>
+    </StyledContainer>
   );
 };
 
 export default List;
 
-const StyledListContainer = styled("div")({
+const StyledContainer = styled(Box)(() => ({
   padding: "16px",
   display: "flex",
   alignItems: "flex-start",
@@ -137,30 +132,37 @@ const StyledListContainer = styled("div")({
   gap: "20px",
   marginTop: "1rem",
   marginLeft: "2rem",
-});
 
-const StyledAddTaskContainer = styled("div")({
-  marginTop: "10px",
-  backgroundColor: "#2e2e2e",
-  opacity: "0.7",
-  border: "none",
-  borderRadius: "1rem",
-  width: "20rem",
-});
+  "& > .container": {
+    marginTop: "10px",
+    backgroundColor: "#2e2e2e",
+    opacity: "0.7",
+    border: "none",
+    borderRadius: "1rem",
+    width: "20rem",
+  },
 
-const StyledListTitle = styled("div")({
-  fontSize: "20px",
-  fontWeight: "bold",
-  marginBottom: "1rem",
-  marginTop: "1rem",
-  display: "flex",
-  justifyContent: "space-around",
-  alignItems: "center",
-  color: "#fff",
-  transition: "color 0.3s ease-in-out",
-});
+  "& .box-title": {
+    fontSize: "20px",
+    fontWeight: "bold",
+    marginBottom: "1rem",
+    marginTop: "1rem",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    gap: "3rem",
+    color: "#fff",
+    transition: "color 0.3s ease-in-out",
 
-const StyledEditForm = styled("form")({
+    "& > .title": {
+      marginLeft: "1rem",
+      width: "100%",
+      maxWidth: "5rem",
+    },
+  },
+}));
+
+const StyledEditForm = styled("form")(() => ({
   display: "flex",
   flexDirection: "column",
   gap: "4px",
@@ -187,27 +189,25 @@ const StyledEditForm = styled("form")({
     borderRadius: "5px",
     height: "20px",
   },
-});
+}));
 
-const StyledIconsList = styled("div")(
-  ({ theme }) => ({
+const StyledIcons = styled(Box)(
+  () => ({
     display: "flex",
-    justifyContent: "flex-end",
     visibility: "hidden",
     transition: "visibility 0.3s ease-in-out",
 
-    "& button": {
+    "& > .MuiButton-root": {
       background: "none",
       border: "none",
       cursor: "pointer",
       fontSize: "1rem",
       color: "#fff",
       marginTop: "4px",
-      marginRight: "8px",
       transition: "color 0.3s ease-in-out",
 
-      "&:hover": {
-        color: theme.palette.primary.main,
+      "& :hover": {
+        color: "#1c6cdc",
       },
     },
   }),

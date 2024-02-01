@@ -1,8 +1,8 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addCard, addList } from "../../redux/slices/list-slice";
-import { Button, InputBase, styled } from "@mui/material";
+import { Box, Button, InputBase, styled } from "@mui/material";
 import { MdCancelPresentation } from "react-icons/md";
 import { toast } from "react-toastify";
 
@@ -32,6 +32,7 @@ const AddNewTask = ({ type, parentId }) => {
       title: inputValue,
       id: uuidv4(),
     };
+
     if (type) {
       dispatch(addCard({ ...data, parentId: parentId }));
     } else {
@@ -41,74 +42,84 @@ const AddNewTask = ({ type, parentId }) => {
     setInputValue("");
   };
 
-  const openForm = () => {
-    setIsFormVisible(true);
-  };
+  const openForm = () => setIsFormVisible(true);
 
-  const hideForm = () => {
-    setIsFormVisible(false);
-  };
+  const hideForm = () => setIsFormVisible(false);
 
   return (
-    <StyledCard>
+    <StyledContainer>
       {!isFormVisible && (
-        <StyledButton onClick={openForm}>
+        <Button onClick={openForm} className="button">
           + Добавить {type ? "задачу" : "новую колонку"}
-        </StyledButton>
+        </Button>
       )}
+
       {isFormVisible && (
         <StyledForm onSubmit={submitHandler}>
-          <StyledInput
+          <InputBase
+            className="input"
             value={inputValue}
             onChange={handleChangeInput}
             placeholder={
               type ? "Ввести заголовок карточки" : "Ввести заголовок списка"
             }
           />
-          <StyledButtonContainer>
-            <StyledSubmitButton type="submit">
+
+          <Box className="button-container">
+            <Button type="submit" className="submit-button">
               Добавить карточку
-            </StyledSubmitButton>
-            <StyledCancelButton onClick={hideForm}>
+            </Button>
+
+            <Button onClick={hideForm} className="cancel-button">
               <MdCancelPresentation />
-            </StyledCancelButton>
-          </StyledButtonContainer>
+            </Button>
+          </Box>
         </StyledForm>
       )}
-    </StyledCard>
+    </StyledContainer>
   );
 };
 
 export default AddNewTask;
 
-const StyledCard = styled("div")({
+const StyledContainer = styled(Box)({
   display: "flex",
   justifyContent: "center",
   flexDirection: "column",
   alignItems: "center",
   gap: "1rem",
-});
 
-const StyledButton = styled(Button)({
-  backgroundColor: "#ffffff",
-  opacity: " 0.8",
-  color: "#737070",
-  textTransform: "initial",
-  width: "15rem",
-  marginBottom: "1rem",
-  marginTop: "1rem",
-  "&:hover": {
-    backgroundColor: "#7c7a7a7a",
-    color: "#fff",
-    opacity: " 0.7",
+  "& .input": {
+    padding: "8px",
+    borderRadius: "4px",
+    width: "15rem",
+    color: "#737070",
+    fontSize: "0.8rem",
+    backgroundColor: "#fff",
   },
-});
 
-const StyledButtonContainer = styled("div")({
-  display: "flex",
-  flexDirection: "row",
-  alignItems: "center",
-  marginBottom: "2rem",
+  "& .button": {
+    backgroundColor: "#ffffff",
+    opacity: " 0.8",
+    color: "#737070",
+    textTransform: "initial",
+    width: "15rem",
+    marginBottom: "1rem",
+    marginTop: "1rem",
+
+    "&:hover": {
+      backgroundColor: "#7c7a7a7a",
+      color: "#fff",
+      opacity: " 0.7",
+    },
+  },
+
+  "& .button-container": {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center",
+    marginBottom: "2rem",
+  },
 });
 
 const StyledForm = styled("form")({
@@ -121,42 +132,34 @@ const StyledForm = styled("form")({
   padding: "1rem",
   opacity: "0.7",
   width: "20rem",
-});
 
-const StyledInput = styled(InputBase)({
-  padding: "8px",
-  borderRadius: "4px",
-  width: "15rem",
-  color: "#737070",
-  fontSize: "0.8rem",
-  backgroundColor: "#fff",
-});
+  "& .submit-button": {
+    margin: "10px 0 ",
+    backgroundColor: "#000000",
+    opacity: "none",
+    color: "#fff",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    fontSize: "0.8rem",
+    height: "2rem",
+    textTransform: "initial",
+    marginRight: "2rem",
 
-const StyledSubmitButton = styled(Button)({
-  margin: "10px 0 ",
-  backgroundColor: "#000000",
-  opacity: "none",
-  color: "#fff",
-  border: "none",
-  borderRadius: "4px",
-  cursor: "pointer",
-  fontSize: "0.8rem",
-  height: "2rem",
-  textTransform: "initial",
-  marginRight: "2rem",
-  "&:hover": {
-    backgroundColor: "#fff",
-    color: "black",
+    "&:hover": {
+      backgroundColor: "#fff",
+      color: "black",
+    },
   },
-});
 
-const StyledCancelButton = styled(Button)({
-  color: "#fff",
-  border: "none",
-  background: "none",
-  borderRadius: "4px",
-  cursor: "pointer",
-  marginLeft: "5px",
-  fontSize: "2rem",
-  height: "2rem",
+  "& .cancel-button": {
+    color: "#fff",
+    border: "none",
+    background: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
+    marginLeft: "5px",
+    fontSize: "2rem",
+    height: "2rem",
+  },
 });
