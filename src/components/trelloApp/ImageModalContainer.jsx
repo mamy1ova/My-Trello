@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Image from "../../assets/images/background.jpg";
 import ImageModal from "./ImageModal";
 import { RiImageEditFill } from "react-icons/ri";
@@ -8,13 +8,9 @@ const ImageModalContainer = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [backgroundImage, setBackgroundImage] = useState(Image);
 
-  const handleOpenModal = () => {
-    setIsModalOpen(true);
-  };
+  const handleOpenModal = () => setIsModalOpen(true);
 
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
+  const handleCloseModal = () => setIsModalOpen(false);
 
   const handleBackgroundChange = (newBackground) => {
     setBackgroundImage(newBackground);
@@ -22,17 +18,18 @@ const ImageModalContainer = () => {
   };
 
   return (
-    <div>
+    <>
       <StyledButton onClick={handleOpenModal}>
         <RiImageEditFill />
       </StyledButton>
+
       <ImageModal
         isOpen={isModalOpen}
         onClose={handleCloseModal}
         backgroundImage={backgroundImage}
         onBackgroundChange={handleBackgroundChange}
       />
-    </div>
+    </>
   );
 };
 

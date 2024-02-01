@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { MdDelete } from "react-icons/md";
 import { useDispatch, useSelector } from "react-redux";
 import {
@@ -7,7 +7,7 @@ import {
   list,
   updateOrder,
 } from "../../redux/slices/list-slice";
-import { InputBase, styled } from "@mui/material";
+import { Box, Button, InputBase, Typography, styled } from "@mui/material";
 import { FaEdit } from "react-icons/fa";
 
 const Card = ({ cardInfo }) => {
@@ -16,13 +16,9 @@ const Card = ({ cardInfo }) => {
   const [isEdit, setIsEdit] = useState(false);
   const [editTitle, setEditTitle] = useState(cardInfo.title);
 
-  const removeChildList = () => {
-    dispatch(deleteChildList(cardInfo));
-  };
+  const removeChildList = () => dispatch(deleteChildList(cardInfo));
 
-  const handleEditClick = () => {
-    setIsEdit(true);
-  };
+  const handleEditClick = () => setIsEdit(true);
 
   const handleSaveEdit = () => {
     dispatch(editChildList({ id: cardInfo.id, title: editTitle }));
@@ -34,17 +30,12 @@ const Card = ({ cardInfo }) => {
     setEditTitle(cardInfo.title);
   };
 
-  const handleDragStart = (e) => {
+  const handleDragStart = (e) =>
     e.dataTransfer.setData("text/plain", cardInfo.id);
-  };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
+  const handleDragOver = (e) => e.preventDefault();
 
-  const handleDragEnter = (e) => {
-    e.preventDefault();
-  };
+  const handleDragEnter = (e) => e.preventDefault();
 
   const handleDragLeave = () => {};
 
@@ -52,7 +43,7 @@ const Card = ({ cardInfo }) => {
     e.preventDefault();
     const draggedItemId = e.dataTransfer.getData("text/plain");
 
-    const newList = [...listItem]; 
+    const newList = [...listItem];
 
     const draggedItem = newList.find((item) => item.id === draggedItemId);
     const targetItemIndex = newList.findIndex(
@@ -66,7 +57,7 @@ const Card = ({ cardInfo }) => {
   };
 
   return (
-    <StyledCardContainer
+    <StyledContainer
       draggable
       onDragStart={handleDragStart}
       onDragOver={handleDragOver}
@@ -75,33 +66,35 @@ const Card = ({ cardInfo }) => {
       onDrop={handleDrop}
     >
       {isEdit ? (
-        <StyledEditForm>
+        <Box className="edit-form">
           <InputBase
             type="text"
             value={editTitle}
             onChange={(e) => setEditTitle(e.target.value)}
           />
-          <button onClick={handleSaveEdit}>Сохранить</button>
-          <button onClick={handleCancelEdit}>Отмена</button>
-        </StyledEditForm>
+
+          <Button onClick={handleSaveEdit}>Сохранить</Button>
+          <Button onClick={handleCancelEdit}>Отмена</Button>
+        </Box>
       ) : (
         <>
-          <StyledCardTitle>{cardInfo.title}</StyledCardTitle>
-          <StyledButton onClick={handleEditClick}>
+          <Typography className="title">{cardInfo.title}</Typography>
+          <Button onClick={handleEditClick} className="edit">
             <FaEdit />
-          </StyledButton>
-          <StyledButton onClick={removeChildList}>
+          </Button>
+
+          <Button onClick={removeChildList} className="delete">
             <MdDelete />
-          </StyledButton>
+          </Button>
         </>
       )}
-    </StyledCardContainer>
+    </StyledContainer>
   );
 };
 
 export default Card;
 
-const StyledCardContainer = styled("div")({
+const StyledContainer = styled(Box)({
   backgroundColor: "#fff",
   borderRadius: "4px",
   padding: "1rem",
@@ -111,48 +104,64 @@ const StyledCardContainer = styled("div")({
   justifyContent: "space-around",
   alignItems: "center",
   width: "15rem",
-});
-
-const StyledCardTitle = styled("p")({
-  fontSize: "16px",
-  margin: 0,
-  width: "10rem",
-  wordWrap: "break-word",
-  paddingRight: "2rem",
-});
-
-const StyledButton = styled("button")({
   position: "relative",
-  left: "0",
-  marginLeft: "auto",
-  display: "flex",
-  background: "none",
-  border: "none",
-  cursor: "pointer",
-  fontSize: "18px",
-  color: "#555",
-  transition: "color 0.3s ease-in-out",
 
-  "&:hover": {
-    color: "#333",
-  },
-});
-
-const StyledEditForm = styled("div")({
-  display: "flex",
-  flexDirection: "column",
-  gap: "4px",
-  zIndex: "1001",
-  backgroundColor: " white",
-  width: "50rem",
-  padding: "10px",
-  borderRadius: "5px",
-
-  "& button": {
-    backgroundColor: "#2e2e2e",
-    color: "#fff",
-    border: "none",
+  "& > .edit-form": {
+    display: "flex",
+    flexDirection: "column",
+    gap: "4px",
+    zIndex: "1001",
+    backgroundColor: " white",
+    width: "50rem",
+    padding: "10px",
     borderRadius: "5px",
-    height: "20px",
+
+    "& button": {
+      backgroundColor: "#2e2e2e",
+      color: "#fff",
+      border: "none",
+      borderRadius: "5px",
+      height: "20px",
+      fontSize: "12px",
+    },
+  },
+
+  "& .edit": {
+    position: "absolute",
+    right: "1.5rem",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "18px",
+    color: "#555",
+    transition: "color 0.3s ease-in-out",
+
+    "&:hover": {
+      color: "#333",
+    },
+  },
+
+  "& .delete": {
+    position: "absolute",
+    right: "0",
+    paddingTop: "8px",
+    background: "none",
+    border: "none",
+    cursor: "pointer",
+    fontSize: "18px",
+    color: "#555",
+    transition: "color 0.3s ease-in-out",
+
+    "&:hover": {
+      color: "#333",
+    },
+  },
+
+  "& .title": {
+    fontSize: "16px",
+    margin: 0,
+    width: "10rem",
+    wordWrap: "break-word",
+    marginLeft: "-3rem",
   },
 });

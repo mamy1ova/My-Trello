@@ -1,14 +1,11 @@
-import React from "react";
-import Header from "../../layouts/Header";
 import List from "./List";
+import Header from "../../layout/Header";
 
-const TrelloApp = () => {
-  return (
-    <div>
-      <Header />
-      <List />
-    </div>
-  );
-};
+const TrelloApp = () => (
+  <>
+    <Header />
+    <List />
+  </>
+);
 
 export default TrelloApp;
