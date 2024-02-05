@@ -14,7 +14,7 @@ import {
   Box,
 } from "@mui/material";
 import { PersonAdd, Settings, Logout } from "@mui/icons-material";
-import ImageModalContainer from "../components/trelloApp/ImageModalContainer";
+import ModalContainer from "../components/trelloApp/ModalContainer";
 
 const Header = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -33,7 +33,7 @@ const Header = () => {
 
       <StyledIcons>
         <Box className="modal">
-          <ImageModalContainer />
+          <ModalContainer />
         </Box>
 
         <Stack direction="row" spacing={2}>
