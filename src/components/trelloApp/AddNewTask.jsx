@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { addCard, addList } from "../../redux/slices/list-slice";
+import { addCard, addList } from "../../store/slices/list-slice";
 import { Box, Button, InputBase, styled } from "@mui/material";
 import { MdCancelPresentation } from "react-icons/md";
 import { toast } from "react-toastify";
