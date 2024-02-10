@@ -10,6 +10,7 @@ const AddNewTask = ({ type, parentId }) => {
   const [inputValue, setInputValue] = useState("");
   const [isFormVisible, setIsFormVisible] = useState(false);
   const dispatch = useDispatch();
+
   const handleChangeInput = (e) => setInputValue(e.target.value);
 
   const submitHandler = (e) => {
@@ -38,7 +39,9 @@ const AddNewTask = ({ type, parentId }) => {
     } else {
       dispatch(addList(data));
     }
+
     hideForm();
+
     setInputValue("");
   };
 
