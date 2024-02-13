@@ -1,12 +1,11 @@
 import { Box, Button, TextField, Typography } from "@mui/material";
 import { useFormik } from "formik";
 import { styled } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { TfiTrello } from "react-icons/tfi";
 import { validationSchema } from "../../utils/helpers/validationShema";
 import BackgroundImage from "../../assets/images/logo.png";
+import { showNotification } from "../../utils/helpers/notification";
 
 const SignInPage = () => {
   const navigate = useNavigate();
@@ -24,15 +23,10 @@ const SignInPage = () => {
   });
 
   const handleButton = () => {
-    toast.success("Вход успешно выполнен!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+    showNotification({
+      title: "Успешно",
+      message: "Вход успешно выполнен!",
+      type: "success",
     });
   };
 

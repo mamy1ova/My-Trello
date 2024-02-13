@@ -3,8 +3,8 @@ import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { addCard, addList } from "../../store/slices/list-slice";
 import { Box, Button, InputBase, styled } from "@mui/material";
-import { toast } from "react-toastify";
 import { MdCancelPresentation } from "react-icons/md";
+import { showNotification } from "../../utils/helpers/notification";
 
 const AddNewTask = ({ type, parentId }) => {
   const [inputValue, setInputValue] = useState("");
@@ -17,15 +17,10 @@ const AddNewTask = ({ type, parentId }) => {
     e.preventDefault();
 
     if (inputValue.trim() === "") {
-      return toast.error("Заполните поле!", {
-        position: "top-right",
-        autoClose: 2000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "light",
+      return showNotification({
+        title: "Ошибка",
+        message: "Заполните поле!",
+        type: "error",
       });
     }
 

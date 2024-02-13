@@ -1,11 +1,10 @@
 import { Box, Button, TextField } from "@mui/material";
 import { useFormik } from "formik";
 import { styled } from "@mui/material/styles";
-import { toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 import { Link, useNavigate } from "react-router-dom";
 import { validationSchemaRegistrForm } from "../../utils/helpers/validationShema";
 import BackgroundImage from "../../assets/images/logo.png";
+import { showNotification } from "../../utils/helpers/notification";
 
 const SignUpPage = () => {
   const navigate = useNavigate();
@@ -25,15 +24,10 @@ const SignUpPage = () => {
   });
 
   const handleButton = () => {
-    toast.success("Вы успешно зарегистрировались!", {
-      position: "bottom-right",
-      autoClose: 2000,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-      progress: undefined,
-      theme: "light",
+    showNotification({
+      title: "Успешно",
+      message: "Вы успешно зарегистрировались!",
+      type: "success",
     });
   };
 
