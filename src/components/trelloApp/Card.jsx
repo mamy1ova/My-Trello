@@ -6,7 +6,7 @@ import {
   editChildList,
   list,
   updateOrder,
-} from "../../redux/slices/list-slice";
+} from "../../store/slices/list-slice";
 import { Box, Button, InputBase, Typography, styled } from "@mui/material";
 import { FaEdit } from "react-icons/fa";
 

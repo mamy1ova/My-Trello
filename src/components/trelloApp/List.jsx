@@ -7,7 +7,7 @@ import {
   editList,
   list,
   updateOrder,
-} from "../../redux/slices/list-slice";
+} from "../../store/slices/list-slice";
 import { Box, Button, InputBase, Typography, styled } from "@mui/material";
 import { MdDelete, MdModeEdit } from "react-icons/md";
 
