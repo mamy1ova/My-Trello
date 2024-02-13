@@ -48,11 +48,13 @@ const List = () => {
 
   const handleDrop = (e, targetId) => {
     e.preventDefault();
+
     const draggedItemId = e.dataTransfer.getData("text/plain");
 
     const newList = listItem.map((item) =>
       item.id === draggedItemId ? { ...item, parentId: targetId } : item
     );
+    
     dispatch(updateOrder(newList));
   };
 
